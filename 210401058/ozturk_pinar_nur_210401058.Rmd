@@ -226,4 +226,39 @@ summary(merged_data$`2022 Population`)
 plot(merged_data$`2022 Population`, merged_data$pollution_2023, main = "Nüfus ve Kirlilik İlişkisi", xlab = "2022 Nüfusu", ylab = "Kirlilik Oranı")
 
 ```
+# Q6 : Veri analizi
+
+**Birleştirilmiş veri seti üzerinde temel analiz**
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+summary(merged_data)
+
+```
+**Kirlilik ile nüfus artışı arasındaki ilişkiyi gösteren bir scatter plot**
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+# Kirlilik ile nüfus artışı arasındaki ilişkiyi gösteren bir scatter plot
+plot(merged_data$`2022 Population`, merged_data$pollution_2023, main = "Nüfus ve Kirlilik İlişkisi", xlab = "2022 Nüfusu", ylab = "Kirlilik Oranı")
+
+```
+**Kirlilik ve nüfus artışı arasındaki korelasyon katsayısı**
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+# Kirlilik ve nüfus artışı arasındaki korelasyon katsayısı
+correlation <- cor(merged_data$`2022 Population`, merged_data$pollution_2023)
+print(paste("Korelasyon Katsayısı: ", correlation))
+
+```
+**Nüfus artışı ile kirlilik arasındaki ilişkiyi lineer regresyon modeliyle inceleme**
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+linear_model <- lm(pollution_2023 ~ `2022 Population`, data = merged_data)
+summary(linear_model)
+```
+
+Bu kodlar, birleştirilmiş veri seti üzerinde temel analizler yapar. summary fonksiyonu, veri setinin özet istatistiklerini gösterir. Ayrıca, plot fonksiyonu ile nüfus artışı ve kirlilik arasındaki ilişkiyi gösteren bir scatter plot çizilir. cor fonksiyonu ile iki değişken arasındaki korelasyon katsayısı hesaplanır. Son olarak, lm fonksiyonu ile lineer regresyon modeli oluşturulur ve bu modelin özetini görüntüler.
+
+Bu adımlar, çevresel kirlilik ile nüfus artışı arasındaki ilişkinin anlaşılmasına yönelik temel bir analiz sunar. Elde edilen istatistiksel sonuçlar ve grafikler, projenin ana hedefine ulaşmak için kritik öneme sahip olabilir ve çözüm tavsiyelerinin geliştirilmesine yardımcı olabilir.
+
+
 
