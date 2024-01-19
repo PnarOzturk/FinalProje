@@ -188,3 +188,42 @@ Seçilen veri setinde, sadece "country_name" (ülkeler) ve "pollution_2023" (kir
 Seçilen veri setinde, sadece "Country/Territory" (ülkeler) ve "2022 Population" (2022 nüfusu) sütunları alınmıştır.
 İlgili tablonun ilk 6 satırı aşağıda gösterilmiştir:
 
+# Q5 : Veri mühendisliği
+
+**İki tablonun ülkeler bazında işlenebilmesi için birleştirildi ve yeni oluşan tablo aşağıdaki gibi oluşmuştur.**
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+merged_data <- selected_data %>%
+  left_join(selected_data_2, by = c("country_name" = "Country/Territory"))
+
+# Örnek gösterim (ilk 6 satır)
+selected_data
+selected_data_2
+merged_data
+
+```
+
+
+**Şimdi, bu birleştirilmiş veri seti üzerinde bir analiz yapalım**. Birleştirilmiş veri setinin kirlilik oranları ve 2022 nüfusunu içeren sütunlarının özet istatistiklerini ve iki değişken arasındaki ilişkiyi gösteren bir scatter plot yapıldı. Bu basit analizler, veri seti içeriği hakkında bir anlayış sağlamak için kullanılabilir. Summary fonksiyonu kullanıldı.
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+# Birleştirilmiş veri seti üzerinde basit bir analiz
+summary(merged_data$pollution_2023)
+
+
+```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+# Birleştirilmiş veri seti üzerinde basit bir analiz
+summary(merged_data$`2022 Population`)
+
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+# İki değişken arasındaki ilişkiyi gösteren bir scatter plot
+plot(merged_data$`2022 Population`, merged_data$pollution_2023, main = "Nüfus ve Kirlilik İlişkisi", xlab = "2022 Nüfusu", ylab = "Kirlilik Oranı")
+
+```
+
