@@ -13,3 +13,106 @@ lang: tr
 
 # Q2 : Proje Amacı
 **Çevre Kirliliği ve Nüfus Artışı İlişkisinin Analizi: Sürdürülebilir Geleceği Şekillendirmek** [world-polluted-country-report](https://www.kaggle.com/datasets/rafsunahmad/world-polluted-country-report) ve [World Population Dataset](https://www.kaggle.com/datasets/iamsouravbanerjee/world-population-dataset) adlı Kaggle veri setlerini kullandığımız bu projenin temel amacı, *çevre kirliliği faktörleri ile nüfus artışı arasındaki karmaşık ilişkiyi anlamak ve bu ilişkinin çevresel politikalara etkisini belirlemektir.* Bu kapsamda, dünya genelindeki çevre kirliliği verilerini analiz ederek, çevre kirliliği ile nüfus artışı arasındaki ilişkiyi **kwantitatif** bir şekilde ortaya koymayı hedefliyoruz. Analiz etapları arasında, çevre kirliliği faktörlerini belirleme, nüfus artışı ile bu faktörler arasındaki ilişkiyi değerlendirme ve çevresel politikalara önerilerde bulunma yer almaktadır.Bu analizlerden elde edilen sonuçlar, çevre kirliliği ve nüfus artışı arasındaki ilişkinin derinlemesine anlaşılmasına katkı sağlayacak ve çevresel politikaların daha etkin bir şekilde yönlendirilmesine olanak tanıyacaktır. Ayrıca, sürdürülebilir bir geleceği şekillendirmek için önerilecek çözümler, çevresel sürdürülebilirlik alanında kritik öneme sahip olacaktır.
+
+# Q3 : Veri seti keşifsel analizi
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+
+# Veri dosyasını internetten indir ve git repo'sunun içine commitle
+filename_1 <- "most-polluted-countries.csv"
+filename_2 <- "world_population.csv"
+
+# Dosyayi ithal et
+library(readr)
+myDF_1 <- read_csv(filename_1)
+myDF_2 <-read_csv(filename_2)
+
+```
+Veri setlerinin bilgileri aşağıda verilmiştir.
+  
+  **World Polluted Country Report Dataset**
+- **Satir sayisi** : `r nrow(myDF_1)`
+- **Satir sayisi** : `r ncol(myDF_1)`
+
+
+  **World Population Dataset**
+- **Satir sayisi** : `r nrow(myDF_2)`
+- **Satir sayisi** : `r ncol(myDF_2)`
+
+Veri setlerinin görselleştirmesi aşağıda verilmiştir.
+
+**World Polluted Country Report Dataset**
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+myDF_1
+```
+
+**World Population Dataset**
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+myDF_2
+```
+
+Veri setini incelediğimizde, problem çözümü için World Population Dataset tablomuzdan kullanacağımız  **2022 Population** sutünunu olacak. World Polluted Country Report Dataset tablomuzdan tüm sütunları kullanıp ortalama bir hava kirliliği oranı oluşturağız. Bu tablonun **Country** sütunu sayesinde diğer tablo ile ortak analiz yapılacak.
+Diğer sütunlardaki değişkenlere ihtiyaç duymayacağımızdan onları sileceğiz / dikkate almayacağız.
+**Ülkelerdeki kirlilik oran dağılımı**
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+hist(myDF_1$pollution_2023,breaks =20)
+```
+
+
+
+
+
+
+**Ülkelerdeki 2022 yılı nüfusları aşağıda belirtilmiştir.**
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+hist(myDF_2$`2022 Population`,breaks = 20)
+```
+
+
+Ülkelerdeki kirlilik oranı 5.0'dann büyük değerlere sahip ülkeler aşağıda analiz edilmiştir.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Gerekli kütüphane
+if (!requireNamespace("ggplot2", quietly = TRUE)) {
+  install.packages("ggplot2")
+}
+library(ggplot2)
+
+filtered_data <- subset(myDF_1, `pollution_2023` > 10)
+
+# Ülkelerin adlarını ve frekanslarını al
+country_counts <- table(filtered_data$country_name)
+
+# Veriyi veri çerçevesine dönüştür
+data <- data.frame(country = names(country_counts), count = as.numeric(country_counts))
+
+# Sütun grafik çizimi
+ggplot(data, aes(x = country, y = count, fill = country)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  coord_flip() +
+  labs(title = "Ülkelerde hava kirliliği oranı > 5", x = "Ülkeler", y = "Sayı")
+```
+
+2022 Nüfus oranı 41125771 büyük olan ülkeler
+
+```{r echo=FALSE, message=FALSE, warning=FALSE} 
+
+filtered_data <- subset(myDF_2, `2022 Population`> 41125771)
+
+
+country_counts <- table(filtered_data$`2022 Population`)
+
+pie(country_counts, main = "Ülkelerde nüfusu > 41125771", col = rainbow(length(country_counts)))
+
+
+```
+
+
+
