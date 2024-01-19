@@ -115,4 +115,76 @@ pie(country_counts, main = "Ülkelerde nüfusu > 41125771", col = rainbow(length
 ```
 
 
+# Q4 : Veri seti ön işlemesi
+
+ **World Polluted Country Report Dataset** tablosunda sadece kirlilik oranlarının bulunduğu sütun ve ülkeler sütunu ayrı bir tablo olarak ayıklandı..
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+selected_data <- myDF_1 %>%
+    select(country_name, pollution_2023)
+
+# Oluşturulan tabloyu ekrana bastır
+head(selected_data,6)
+```
+
+ **World Population Dataset** tablosunda sadece 2022 nüfuslarının bulunduğu sütun ve ülkeler sütunu ayrı bir tablo olarak ayıklandı..
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+selected_data_2 <- myDF_2 %>%
+    select(`Country/Territory`, `2022 Population`)
+
+# Oluşturulan tabloyu ekrana bastır
+head(selected_data_2,6)
+```
+
+ Tablolarda ham veri setleri okundu ve aşağıdaki adımlar uygulandı :
+ *Country sütununu faktör tipine çevir*
+ *Virgülle ayrılmış sayısal değerleri numeric tipine çevir*
+ *Eksik veri temizleme*
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(readr)
+library(dplyr)
+# Ham veri setini oku
+# Veri dosyasını internetten indir ve git repo'sunun içine commitle
+# Örnek ön işleme adımları
+
+# 1. Country sütununu faktör tipine çevir
+selected_data$country_name <- as.factor(selected_data$country_name)
+selected_data_2$`Country/Territory` <- as.factor(selected_data_2$`Country/Territory`)
+
+# 2. Virgülle ayrılmış sayısal değerleri numeric tipine çevir
+# Örneğin, AQI Value sütunu için
+selected_data$pollution_2023 <- as.numeric(gsub(",", ".", selected_data$pollution_2023))
+
+# 3. Eksik veri temizleme
+# Örneğin, -999 ile belirtilmiş eksik değerleri NA'ya çevirme
+selected_data_2[selected_data_2 == -999] <- NA
+
+# 4. NA değerlerini temizleme
+selected_data_2 <- na.omit(selected_data_2)
+
+# Ön işleme sonrası veri setini ekrana bastırma
+head(selected_data,6)
+head(selected_data_2,6)
+
+
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE,results='hide'}
+source("./Q4_tests_pinar_nur_ozturk_210401058.R")
+
+```
+**World Polluted Country Report Dataset:**
+Seçilen veri setinde, sadece "country_name" (ülkeler) ve "pollution_2023" (kirlilik oranları) sütunları alınmıştır.
+İlgili tablonun ilk 6 satırı aşağıda gösterilmiştir
+
+
+**World Population Dataset:**
+Seçilen veri setinde, sadece "Country/Territory" (ülkeler) ve "2022 Population" (2022 nüfusu) sütunları alınmıştır.
+İlgili tablonun ilk 6 satırı aşağıda gösterilmiştir:
 
