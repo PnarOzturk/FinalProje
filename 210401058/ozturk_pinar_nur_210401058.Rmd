@@ -1,0 +1,12 @@
+---
+title: "Proje Rapor : PINAR NUR ÖZTÜRK 210401058" 
+output:
+  html_document:
+    df_print: paged
+    
+lang: tr
+---
+
+# Q1 : Problem tanımı
+
+Şirketimiz **Green Consulting**. Problemimiz *günümüzde çevre kirliliği faktörleri ile nüfus artışı arasındaki karmaşık ilişki, çevresel politikaların etkin bir şekilde yönlendirilmesini zorlaştırmaktadır. Green Consulting, bu karmaşıklığı anlamak ve çevresel politikalar üzerindeki etkisini belirleyerek sürdürülebilir bir geleceği şekillendirmeyi amaçlamaktadır.*
